@@ -1,0 +1,23 @@
+{
+    "name": "jfs/uploader",
+    "description": "Jfs encrypted upload library",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "ext-jfs": "*",
+        "ext-openssl": "*"
+    },
+    "autoload": {
+        "files": [
+            "loader.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jfs\\Providers\\UploadServiceProvider"
+            ]
+        }
+    }
+}

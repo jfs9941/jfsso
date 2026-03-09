@@ -1,6 +1,6 @@
 {
     "name": "jfs/uploader",
-    "description": "Jfs encrypted upload library",
+    "description": "Jfs upload library",
     "type": "library",
     "license": "proprietary",
     "require": {

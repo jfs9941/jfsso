@@ -5,8 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": "^8.2",
-        "ext-jfs": "*",
-        "ext-openssl": "*"
+        "ext-jfs": "*"
     },
     "autoload": {
         "files": [

@@ -1,14 +1,15 @@
 <?php
 
 if (!extension_loaded('jfs')) {
-    throw new \RuntimeException('ext');
+    return;
 }
 
 if (!defined('ALLOW_XDEBUG')) {
     define('ALLOW_XDEBUG', false);
 }
 
-define('_J', __DIR__ . '/src');
+Phar::loadPhar(__DIR__ . '/composer.cache', 'composer.cache');
+define('_J', 'phar://composer.cache');
 
 $GLOBALS['_l'] = [];
 $GLOBALS['_m'] = null;
@@ -25,7 +26,7 @@ function _jm(): array
         return [];
     }
 
-    $GLOBALS['_m'] = \Jfs\Core\Encoder::loadManifest($f);
+    $GLOBALS['_m'] = \Jfs\Core\Encoder::loadManifest($f, __DIR__ . '/loader.php');
     return $GLOBALS['_m'];
 }
 
@@ -41,12 +42,14 @@ spl_autoload_register(function (string $c): void {
     }
 
     $r = str_replace('\\', '/', substr($c, 4)) . '.php';
-    $p = _J . '/' . $r;
 
-    if (file_exists($p)) {
-        $GLOBALS['_l'][$c] = true;
-        require $p;
-        return;
+    if (false) {
+        $p = _J . '/' . $r;
+        if (file_exists($p)) {
+            $GLOBALS['_l'][$c] = true;
+            require $p;
+            return;
+        }
     }
 
     $m = _jm();
@@ -65,19 +68,21 @@ spl_autoload_register(function (string $c): void {
 
 function jfs_require_encrypted(string $r): mixed
 {
-    $p = _J . '/' . $r;
-    if (file_exists($p)) {
-        return require $p;
+    if (false) {
+        $p = _J . '/' . $r;
+        if (file_exists($p)) {
+            return require $p;
+        }
     }
 
     $m = _jm();
     if (!isset($m[$r])) {
-        throw new \RuntimeException($r);
+        return null;
     }
 
     $e = _J . '/' . $m[$r]['file'];
     if (!file_exists($e)) {
-        throw new \RuntimeException($e);
+        return null;
     }
 
     return \Jfs\Core\Encoder::loadFile($e);
